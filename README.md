@@ -7,13 +7,26 @@
 #### 3.View>Tool Windows>TODO
 #### 4.定位“start”模块MainActivity.kt文件的TODO 1，添加初始化训练模型的代码：
 ```kotlin
-private class ImageAnalyzer(ctx: Context, private val listener: RecognitionListener) :
-        ImageAnalysis.Analyzer {
-
-  ...
-  // TODO 1: Add class variable TensorFlow Lite Model
-  private val flowerModel = FlowerModel.newInstance(ctx)
-
-  ...
-}
+ // TODO 1: Add class variable TensorFlow Lite Model
+ private val flowerModel = FlowerModel.newInstance(ctx)
 ```
+#### 5.在CameraX的analyze方法内部，需要将摄像头的输入ImageProxy转化为Bitmap对象，并进一步转化为TensorImage 对象
+```kotlin
+// TODO 2: Convert Image to Bitmap then to TensorImage
+val tfImage = TensorImage.fromBitmap(toBitmap(imageProxy))
+```
+#### 6.
+```kotlin
+// TODO 3: Process the image using the trained model, sort and pick out the top results
+  val outputs = flowerModel.process(tfImage)
+      .probabilityAsCategoryList.apply {
+          sortByDescending { it.score } // Sort with highest confidence first
+      }.take(MAX_RESULT_DISPLAY) // take the top results
+ ```
+ #### 7.将识别的结果加入数据对象Recognition 中，包含label和score两个元素。后续将用于RecyclerView的数据显示
+ ```kotlin
+// TODO 4: Converting the top probability items into a list of recognitions
+  for (output in outputs) {
+      items.add(Recognition(output.label, output.score))
+  }
+ ```
