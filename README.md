@@ -30,3 +30,13 @@ val tfImage = TensorImage.fromBitmap(toBitmap(imageProxy))
       items.add(Recognition(output.label, output.score))
   }
  ```
+#### 8.将原先用于虚拟显示识别结果的代码注释掉或者删除
+```kotlin
+// START - Placeholder code at the start of the codelab. Comment this block of code out.
+for (i in 0..MAX_RESULT_DISPLAY-1){
+    items.add(Recognition("Fake label $i", Random.nextFloat()))
+}
+// END - Placeholder code at the start of the codelab. Comment this block of code out.
+```
+#### 9.重新运行项目，实现如下结果：
+![识别花卉](https://github.com/choujvzi/TensorFlowLite/blob/master/screenshots/huahui.jpg)
